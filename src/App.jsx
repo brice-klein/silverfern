@@ -13,8 +13,23 @@ function App() {
   return (
     <>
       <div>
+        <List items={data} />
       </div>
     </>
+  )
+}
+
+function List({items}) {
+  return (
+    <div>
+      
+      { items.map(
+        (item) => { return (
+          <Item item={item} />
+          )
+        }) 
+      }
+    </div>
   )
 }
 
