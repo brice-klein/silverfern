@@ -21,7 +21,7 @@ function App() {
 
 function List({items}) {
   return (
-    <div>
+    <div className="list">
       
       { items.map(
         (item) => { return (
@@ -36,11 +36,17 @@ function List({items}) {
 function Item({item}) {
   return (
     <>
-      <div class="item-container">
-        <div class="item-title">
-          {item.title}
+      <div className="item-container">
+        <div className="header">
+          <div className="image">
+            <img src={item.image}></img>
+          </div>
+          <div className="item-title">
+            {item.title}
+          </div>
         </div>
-        <div class="item-description">
+
+        <div className="item-description">
           {item.description}
         </div>
       </div>
