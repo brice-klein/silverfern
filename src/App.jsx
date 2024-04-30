@@ -38,8 +38,8 @@ function Item({item}) {
     <>
       <div className="item-container">
         <div className="header">
-          <div className="image">
-            <img src={item.image}></img>
+          <div className="image-container">
+            <img className="item-image" src={item.image}></img>
           </div>
           <div className="item-title">
             {item.title}

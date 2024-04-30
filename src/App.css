@@ -12,6 +12,8 @@
 
 .item-container {
   display: flex;
+  flex-direction: column;
+  max-width: 50%;
 }
 
 .header {
@@ -20,9 +22,14 @@
   max-width: 50vw;
 }
 
-.image {
+.image-container {
   flex-grow: 1;
   flex-basis: 50%;
+}
+
+.item-image {
+  max-width: 75px;
+  max-height: 75px;
 }
 
 .item-title {
