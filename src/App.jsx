@@ -5,15 +5,24 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
   const [data, setData] = useState([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [list, setList] = useState([])
+
   useEffect(()=> {
     fetch('https://fakestoreapi.com/products').then(res=>res.json()).then(json=>setData(json))
+  }, [])
 
-  })
+  const handleSearchInput = (e) => {
+    console.log(e.target.value)
+    setList(data.filter((item) => item.title.includes(e.target.value)))
+  } 
 
   return (
     <>
       <div>
-        <Pagination postsPerPage={10} length={data.length} items={data}/>
+        <h1>MOCK SHOP</h1>
+        <input type="text" onChange={(e)=>handleSearchInput(e)}></input>
+        <Pagination postsPerPage={10} length={list.length} items={list.map((item) => searchQuery.length > 0 ? item.title.includes(searchQuery) : item)}/>
       </div>
     </>
   )
@@ -42,7 +51,7 @@ function Item({item}) {
             <img className="item-image" src={item.image}></img>
           </div>
           <div className="item-title">
-            {item.title}
+            <h3>{item.title}</h3>
           </div>
         </div>
 
