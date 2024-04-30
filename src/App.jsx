@@ -13,8 +13,7 @@ function App() {
   return (
     <>
       <div>
-        <List items={data} />
-        <Pagination postsPerPage={10} length={data.length}/>
+        <Pagination postsPerPage={10} length={data.length} items={data}/>
       </div>
     </>
   )
@@ -26,7 +25,7 @@ function List({items}) {
       
       { items.map(
         (item) => { return (
-          <Item item={item} />
+          <Item item={item} key={item.id} />
           )
         }) 
       }
@@ -55,16 +54,23 @@ function Item({item}) {
   )
 }
 
-function Pagination({postsPerPage, length}) {
-  const paginationNumbers = [] 
+function Pagination({postsPerPage, length, items}) {
   
+  const paginationNumbers = [] 
+  var [pageNumber, setPageNumber] = useState(1)
+
+  const handlePageChange = (page)=> {
+    setPageNumber(page)
+  }
+
     for (let i = 1; i <= Math.ceil(length / postsPerPage); i++) {
       paginationNumbers.push(i)
     }
 
     return (
       <div className="pagination">
-        {paginationNumbers.map((pageNumber) => (<button key={pageNumber}>{pageNumber}</button>))}
+        <List items={items.slice(pageNumber*10 - 10, pageNumber*10)} page={1} />
+        {paginationNumbers.map((pageNum) => (<button onClick={()=>setPageNumber(pageNum)} key={pageNum}>{pageNum}</button>))}
       </div>
     )
 }
