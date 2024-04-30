@@ -14,6 +14,7 @@ function App() {
     <>
       <div>
         <List items={data} />
+        <Pagination postsPerPage={10} length={data.length}/>
       </div>
     </>
   )
@@ -52,5 +53,19 @@ function Item({item}) {
       </div>
     </>
   )
+}
+
+function Pagination({postsPerPage, length}) {
+  const paginationNumbers = [] 
+  
+    for (let i = 1; i <= Math.ceil(length / postsPerPage); i++) {
+      paginationNumbers.push(i)
+    }
+
+    return (
+      <div className="pagination">
+        {paginationNumbers.map((pageNumber) => (<button key={pageNumber}>{pageNumber}</button>))}
+      </div>
+    )
 }
 export default App
