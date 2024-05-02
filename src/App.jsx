@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { GoogleLogin, googleLogout } from '@react-oauth/google'
 
 import './App.css'
 
@@ -7,22 +8,35 @@ function App() {
   const [data, setData] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [list, setList] = useState([])
+  const [loginBool, setLoginBool] = useState(false)
 
   useEffect(()=> {
     fetch('https://fakestoreapi.com/products').then(res=>res.json()).then(json=>setData(json))
   }, [])
 
+  const responseMessage = (response) => {
+      setLoginBool(true)
+      console.log(response);
+  };
+  const errorMessage = (error) => {
+      console.log(error);
+  };
+
+  const logOut = () => {
+    googleLogout();
+  }
+
   const handleSearchInput = (e) => {
-    console.log(e.target.value)
     setList(data.filter((item) => item.title.includes(e.target.value)))
   } 
 
   return (
     <>
-      <div>
+    <header><button onClick={()=>logOut()}>logout</button><input type="text" onChange={(e)=>handleSearchInput(e)}></input></header>
+      <div>    
         <h1>MOCK SHOP</h1>
-        <input type="text" onChange={(e)=>handleSearchInput(e)}></input>
-        <Pagination postsPerPage={10} length={list.length} items={list.map((item) => searchQuery.length > 0 ? item.title.includes(searchQuery) : item)}/>
+        
+        { loginBool ? <Pagination postsPerPage={10} length={list.length} items={list.map((item) => searchQuery.length > 0 ? item.title.includes(searchQuery) : item)}/> : <GoogleLogin onSuccess={responseMessage} onError={errorMessage}></GoogleLogin> }
       </div>
     </>
   )
