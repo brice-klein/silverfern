@@ -149,15 +149,15 @@ function Item({item, categories}) {
       <div className="item-container">
         <div className="header">
           <div className="image-container">
-            <img className="item-image" src={item.image}></img>
+            <img className="item-image" src={itemImage}></img>
           </div>
           <div className="item-title">
-            <h3>{item.title}</h3>
+            <h3>{itemTitle}</h3>
           </div>
         </div>
 
         <div className="item-description">
-          {item.description}
+          {itemDescription}
         </div>
         <div className="item-footer"><button onClick={()=>setEdit(true)}>Edit</button></div>
       </div>
