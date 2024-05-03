@@ -89,6 +89,60 @@ function List({items, categories}) {
 
 function Item({item, categories}) {
   const [showEdit, setEdit] = useState(false)
+  const [itemTitle, setItemTitle] = useState(item.title)
+  const [itemDescription, setItemDescription] = useState(item.description)
+  const [itemCategory, setItemCategory] = useState(item.category)
+  const [itemPrice, setItemPrice] = useState(item.price)
+  const [itemImage, setItemImage] = useState(item.image)
+
+  const validateText = (sample) => {
+    return typeof sample == "string"
+  }
+
+  const validateNumber = (sample) => {
+    var r = /^\$?[0-9]+\.?[0-9]?[0-9]?$/;
+    return r.test(sample)
+  }
+
+  const validateURL = (sample) => {
+    var r = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i
+    return r.test(sample)
+  }
+
+  const trimDollarSign = (sample) => {
+    if (sample[0] == "$") {
+      return parseFloat(sample.slice(1))
+    } else {
+      return parseFloat(sample)
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (validateText(itemTitle) 
+        && validateText(itemDescription) 
+        && validateText(itemCategory) 
+        && validateNumber(itemPrice)
+        && validateURL(itemImage)
+      ) {
+        fetch('https://fakestoreapi.com/products/' + item.id,{
+            method:"PUT",
+            body:JSON.stringify(
+                {
+                    title: itemTitle,
+                    price: 13.5,
+                    description: itemDescription,
+                    image: trimDollarSign,
+                    category: itemCategory
+                }
+            )
+        })
+            .then(res=>res.json())
+            .then(json=>console.log(json))
+        setEdit(false)
+    }
+  }
+
   if (!showEdit) {
     return (
     <>
@@ -112,19 +166,25 @@ function Item({item, categories}) {
   } else {
     return (
       <>
-        <form>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <label for="itemTitle">Item Title</label><br></br>
-          <input type="text" id="itemTitle" name="itemTitle"></input><br></br>
+          <input type="text" id="itemTitle" name="itemTitle" placeholder={itemTitle} onChange={(e) => setItemTitle(e.target.value)}></input><br></br>
           <label for="itemDescription">Item Description</label><br></br>
-          <label for="itemCategory">Item Category</label>
-          <select id="itemCategory" name="itemCategory">
+          <textarea rows="4" col="50" id="itemDescription" name="itemDescription" placeholder={itemDescription} onChange={(e) => setItemDescription(e.target.value)}></textarea><br></br>
+          <label for="itemCategory">Item Category</label><br></br>
+          <select id="itemCategory" name="itemCategory" placeholder={itemCategory} onChange={(e) => setItemCategory(e.target.value)}>
             { categories.map(
               (category) => { return (
               <option value={category} key={category}>{category}</option>
               )}
               )
             }
-          </select>
+          </select><br></br>
+          <label for="itemPrice">Item Price</label><br></br>
+          <input type="text" id="itemPrice" name="itemPrice" placeholder={itemPrice} onChange={(e) => setItemPrice(e.target.value)}></input><br></br>
+          <label for="itemImage">Item Image URL</label><br></br>
+          <input type="text" id="itemImage" name="itemImage" placeholder={itemImage} onChange={(e) => setItemImage(e.target.value)}></input>
+          <input type="submit" value="Submit"></input>
         </form>
       </>
     )
