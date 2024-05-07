@@ -95,6 +95,7 @@ function Item({item, categories}) {
   const [itemCategory, setItemCategory] = useState(item.category)
   const [itemPrice, setItemPrice] = useState(item.price)
   const [itemImage, setItemImage] = useState(item.image)
+  const [showMore, setShowMore] = useState(false)
 
   const validateText = (sample) => {
     return typeof sample == "string"
@@ -157,9 +158,7 @@ function Item({item, categories}) {
           </div>
         </div>
 
-        <div className="item-description">
-          {itemDescription}
-        </div>
+        { showMore ? <div className="item-description"> {itemDescription} <button onClick={()=>setShowMore(false)}><b><small>Show less</small></b></button></div> : <div className="item-description"> {itemDescription.slice(0, 100)}... <br></br><button onClick={()=>setShowMore(true)}><b><small>Show more</small></b></button></div> }
         <div className="item-footer"><button onClick={()=>setEdit(true)}>Edit</button></div>
       </div>
     </>
