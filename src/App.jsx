@@ -46,6 +46,7 @@ function App() {
   };
 
   const logOut = () => {
+    setLoginBool(false)
     googleLogout();
   }
 
@@ -63,12 +64,12 @@ function App() {
 
   return (
     <>
-    <header><button onClick={()=>logOut()}>logout</button><input type="text" onChange={(e)=>handleSearchInput(e)}></input></header>
-      <div>    
-        <h1>MOCK SHOP</h1>
-        
-        { loginBool ? <Pagination categories={categories} postsPerPage={10} length={list.length} items={list}/> : <GoogleLogin onSuccess={responseMessage} onError={errorMessage}></GoogleLogin> }
-      </div>
+    <header><button onClick={()=>logOut()}>logout</button><h1>MOCK SHOP</h1><input type="text" onChange={(e)=>handleSearchInput(e)}></input></header>
+      <body>
+        <div>    
+          { loginBool ? <Pagination categories={categories} postsPerPage={10} length={list.length} items={list}/> : <GoogleLogin onSuccess={responseMessage} onError={errorMessage}></GoogleLogin> }
+        </div>
+      </body>
     </>
   )
 }
