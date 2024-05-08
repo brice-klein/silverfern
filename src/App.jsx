@@ -20,7 +20,7 @@ function App() {
     getSetCategories()
   } 
 
-  const getSetDataList = () => {
+  const getSetDataList = async () => {
     fetch('https://fakestoreapi.com/products')
     .then(res=>res.json())
     .then(json=>setDataList(json))
@@ -31,7 +31,7 @@ function App() {
     setList(json)
   }
 
-  const getSetCategories = () => {
+  const getSetCategories = async () => {
     fetch('https://fakestoreapi.com/products/categories')
             .then(res=>res.json())
             .then(json=>setCategories(json))
@@ -64,12 +64,23 @@ function App() {
 
   return (
     <>
-    <header><button onClick={()=>logOut()}>logout</button><h1>MOCK SHOP</h1><input type="text" onChange={(e)=>handleSearchInput(e)}></input></header>
-      <body>
-        <div>    
-          { loginBool ? <Pagination categories={categories} postsPerPage={10} length={list.length} items={list}/> : <GoogleLogin onSuccess={responseMessage} onError={errorMessage}></GoogleLogin> }
-        </div>
-      </body>
+    <div className="header-container">
+      <h1>MOCK SHOP</h1>
+      <button className="logout-button" onClick={()=>logOut()}>logout</button>
+      <input className="searchbar" type="text" onChange={(e)=>handleSearchInput(e)}></input>
+    </div>
+    <div>    
+      { loginBool ? 
+          <Pagination 
+          categories={categories} 
+          postsPerPage={10} 
+          length={list.length} 
+          items={list}/> 
+          : <GoogleLogin 
+            onSuccess={responseMessage} 
+            onError={errorMessage}>
+          </GoogleLogin> }
+    </div>
     </>
   )
 }

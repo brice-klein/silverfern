@@ -5,6 +5,27 @@
   text-align: center;
 }
 
+.header-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+h1 {
+  align-self: center;
+}
+
+.logout-button {
+  align-self: center;
+  margin-bottom: 10vh;
+}
+
+.searchbar {
+  align-self: center;
+  margin-bottom: 5vh;
+}
+
 .pagination {
 }
 
